@@ -1,0 +1,107 @@
+// Variáveis da bola
+let xbolinha = 300;
+let ybolinha = 200;
+let diametro = 15;
+let raio = diametro / 2 
+
+// Variáveis da velocidade da bola
+let velocidadexbolinha = 6;
+let velocidadeybolinha = 6;
+
+// Variáveis da raquete
+let xraquete = 5;
+let yraquete = 150;
+let larguraraquete = 10;
+let alturaraquete = 90;
+
+//Placar do game
+let meuspoint = 0;
+let pointofinimigo = 0;
+
+// Variáveis raquete inimigo
+let xraqueteinimigo = 585;
+let yraqueteinimigo = 150;
+
+// Criação do fundo
+function setup() {
+  createCanvas(600, 400);
+}
+
+// Tela do jogador
+function draw() {
+  background(0); // Cor do fundo
+  mostrabola(); // Faz a bola aparecer na tela
+  velocidadebola(); // Define a velocidade da bola
+  colisaobola(); // Define as colisões da bola
+  raquete(xraquete,yraquete); // Mostra a raquete
+  moveraquete(); // Define o controle da raquete
+  colisaoraquete(); // Define a colisão da raquete
+  raquete(xraqueteinimigo,yraqueteinimigo); //Mostra a raquete do oponente
+  velocidadeyinimigo();
+  colisaoraqueteinimigo();
+  placar();
+  pontos();
+}
+
+// função para mostrar a bola
+function mostrabola () {circle(xbolinha,ybolinha,diametro);
+}
+
+// Função para velocidade da bola
+function velocidadebola () {xbolinha += velocidadexbolinha;
+  ybolinha += velocidadeybolinha;
+}
+
+// Função da colisão da bola
+function colisaobola () {if (xbolinha + raio > width || xbolinha - raio < 0) {velocidadexbolinha *= -1;
+}
+
+if (ybolinha + raio > height || ybolinha -raio < 0) {velocidadeybolinha *= -1;}
+}
+
+// Função para mostrar a raquete
+function raquete (x,y) {rect(x,y,larguraraquete,alturaraquete);
+}
+
+// Função para mover a raquete
+function moveraquete () {
+ if(keyIsDown(UP_ARROW) === true ) {
+   yraquete -= 10;
+ }
+  
+  if(keyIsDown(DOWN_ARROW) === true) {
+   yraquete += 10;
+ }
+}
+
+// Função da colisão da raquete
+function colisaoraquete () {if (xbolinha - raio < xraquete + larguraraquete && ybolinha - raio < yraquete + alturaraquete && ybolinha + raio > yraquete) {velocidadexbolinha *= -1;}
+}
+
+// Função velocidade inimigo
+function velocidadeyinimigo(){
+let velocidadeyinimigo = ybolinha - yraqueteinimigo - alturaraquete / 2 -30;
+  yraqueteinimigo += velocidadeyinimigo
+}
+
+function colisaoraqueteinimigo () {if (xbolinha - raio > xraqueteinimigo + larguraraquete - 20 && ybolinha - raio < yraqueteinimigo + alturaraquete && ybolinha + raio > yraqueteinimigo) {velocidadexbolinha *= -1;}
+}
+
+//Função do placar
+function placar(){
+  textAlign(CENTER)
+  textSize(25);
+  fill(255);
+  text(meuspoint, 278, 26);
+  text(pointofinimigo, 321, 26);
+}
+
+//Marcador de pontos
+function pontos(){
+  if (xbolinha > 590){
+    meuspoint += 1
+  }
+  if (xbolinha < 10){
+    pointofinimigo += 1
+  }
+}
